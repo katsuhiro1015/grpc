@@ -1,28 +1,35 @@
 package main
 
 import (
-	"context"
 	"log"
 	"net"
+	"time"
 
+	pb "github.com/jun06t/grpc-sample/server-streaming/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
-	pb "google.golang.org/grpc/examples/helloworld/helloworld"
 )
 
 const (
 	port = ":8443"
 )
 
-// server is used to implement helloworld.GreeterServer.
-type server struct {
-	pb.UnimplementedGreeterServer
-}
+type server struct{}
 
-// SayHello implements helloworld.GreeterServer
-func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	log.Printf("Received: %v", in.GetName())
-	return &pb.HelloReply{Message: "Hello " + in.GetName()}, nil
+func (s *server) GetNewFeed(in *pb.Empty, stream pb.Feeder_GetNewFeedServer) error {
+	feed := []string{"article1", "article2", "article3"}
+
+	for _, v := range feed {
+		// １秒毎にメッセージを送信
+		err := stream.Send(&pb.FeedResponse{Message: v})
+		if err != nil {
+			return err
+		}
+		time.Sleep(1 * time.Second)
+	}
+
+	// RPC終了
+	return nil
 }
 
 func main() {
@@ -31,11 +38,11 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	creds, err := credentials.NewServerTLSFromFile(
-		"../../cert2/server.crt",
-		"../../cert2/server.key",
+		"../../cert/server.crt",
+		"../../cert/server.key",
 	)
 	s := grpc.NewServer(grpc.Creds(creds))
-	pb.RegisterGreeterServer(s, &server{})
+	pb.RegisterFeederServer(s, &server{})
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

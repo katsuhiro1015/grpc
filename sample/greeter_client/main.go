@@ -3,13 +3,13 @@ package main
 import (
 	"context"
 	"crypto/tls"
+	"fmt"
+	"io"
 	"log"
-	"os"
-	"time"
 
+	pb "github.com/jun06t/grpc-sample/server-streaming/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
-	pb "google.golang.org/grpc/examples/helloworld/helloworld"
 )
 
 const (
@@ -29,18 +29,21 @@ func main() {
 		log.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
-	c := pb.NewGreeterClient(conn)
+	client := pb.NewFeederClient(conn)
 
-	// Contact the server and print out its response.
-	name := defaultName
-	if len(os.Args) > 1 {
-		name = os.Args[1]
-	}
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
-	r, err := c.SayHello(ctx, &pb.HelloRequest{Name: name})
+	stream, err := client.GetNewFeed(context.Background(), new(pb.Empty))
 	if err != nil {
-		log.Fatalf("could not greet: %v", err)
+		log.Fatal(err)
 	}
-	log.Printf("Greeting: %s", r.GetMessage())
+	for {
+		article, err := stream.Recv()
+		// RPCの終了を検知
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(article)
+	}
 }

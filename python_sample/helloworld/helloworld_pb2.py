@@ -17,24 +17,48 @@ _sym_db = _symbol_database.Default()
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='helloworld/helloworld.proto',
-  package='helloworld',
+  package='feed',
   syntax='proto3',
-  serialized_options=_b('\n\033io.grpc.examples.helloworldB\017HelloWorldProtoP\001'),
-  serialized_pb=_b('\n\x1bhelloworld/helloworld.proto\x12\nhelloworld\"\x1c\n\x0cHelloRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"\x1d\n\nHelloReply\x12\x0f\n\x07message\x18\x01 \x01(\t2I\n\x07Greeter\x12>\n\x08SayHello\x12\x18.helloworld.HelloRequest\x1a\x16.helloworld.HelloReply\"\x00\x42\x30\n\x1bio.grpc.examples.helloworldB\x0fHelloWorldProtoP\x01\x62\x06proto3')
+  serialized_options=None,
+  serialized_pb=_b('\n\x1bhelloworld/helloworld.proto\x12\x04\x66\x65\x65\x64\"\x07\n\x05\x45mpty\"\x1f\n\x0c\x46\x65\x65\x64Response\x12\x0f\n\x07message\x18\x01 \x01(\t2;\n\x06\x46\x65\x65\x64\x65r\x12\x31\n\nGetNewFeed\x12\x0b.feed.Empty\x1a\x12.feed.FeedResponse\"\x00\x30\x01\x62\x06proto3')
 )
 
 
 
 
-_HELLOREQUEST = _descriptor.Descriptor(
-  name='HelloRequest',
-  full_name='helloworld.HelloRequest',
+_EMPTY = _descriptor.Descriptor(
+  name='Empty',
+  full_name='feed.Empty',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=37,
+  serialized_end=44,
+)
+
+
+_FEEDRESPONSE = _descriptor.Descriptor(
+  name='FeedResponse',
+  full_name='feed.FeedResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='helloworld.HelloRequest.name', index=0,
+      name='message', full_name='feed.FeedResponse.message', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -52,83 +76,51 @@ _HELLOREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=43,
-  serialized_end=71,
+  serialized_start=46,
+  serialized_end=77,
 )
 
-
-_HELLOREPLY = _descriptor.Descriptor(
-  name='HelloReply',
-  full_name='helloworld.HelloReply',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='message', full_name='helloworld.HelloReply.message', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=73,
-  serialized_end=102,
-)
-
-DESCRIPTOR.message_types_by_name['HelloRequest'] = _HELLOREQUEST
-DESCRIPTOR.message_types_by_name['HelloReply'] = _HELLOREPLY
+DESCRIPTOR.message_types_by_name['Empty'] = _EMPTY
+DESCRIPTOR.message_types_by_name['FeedResponse'] = _FEEDRESPONSE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-HelloRequest = _reflection.GeneratedProtocolMessageType('HelloRequest', (_message.Message,), {
-  'DESCRIPTOR' : _HELLOREQUEST,
+Empty = _reflection.GeneratedProtocolMessageType('Empty', (_message.Message,), {
+  'DESCRIPTOR' : _EMPTY,
   '__module__' : 'helloworld.helloworld_pb2'
-  # @@protoc_insertion_point(class_scope:helloworld.HelloRequest)
+  # @@protoc_insertion_point(class_scope:feed.Empty)
   })
-_sym_db.RegisterMessage(HelloRequest)
+_sym_db.RegisterMessage(Empty)
 
-HelloReply = _reflection.GeneratedProtocolMessageType('HelloReply', (_message.Message,), {
-  'DESCRIPTOR' : _HELLOREPLY,
+FeedResponse = _reflection.GeneratedProtocolMessageType('FeedResponse', (_message.Message,), {
+  'DESCRIPTOR' : _FEEDRESPONSE,
   '__module__' : 'helloworld.helloworld_pb2'
-  # @@protoc_insertion_point(class_scope:helloworld.HelloReply)
+  # @@protoc_insertion_point(class_scope:feed.FeedResponse)
   })
-_sym_db.RegisterMessage(HelloReply)
+_sym_db.RegisterMessage(FeedResponse)
 
 
-DESCRIPTOR._options = None
 
-_GREETER = _descriptor.ServiceDescriptor(
-  name='Greeter',
-  full_name='helloworld.Greeter',
+_FEEDER = _descriptor.ServiceDescriptor(
+  name='Feeder',
+  full_name='feed.Feeder',
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=104,
-  serialized_end=177,
+  serialized_start=79,
+  serialized_end=138,
   methods=[
   _descriptor.MethodDescriptor(
-    name='SayHello',
-    full_name='helloworld.Greeter.SayHello',
+    name='GetNewFeed',
+    full_name='feed.Feeder.GetNewFeed',
     index=0,
     containing_service=None,
-    input_type=_HELLOREQUEST,
-    output_type=_HELLOREPLY,
+    input_type=_EMPTY,
+    output_type=_FEEDRESPONSE,
     serialized_options=None,
   ),
 ])
-_sym_db.RegisterServiceDescriptor(_GREETER)
+_sym_db.RegisterServiceDescriptor(_FEEDER)
 
-DESCRIPTOR.services_by_name['Greeter'] = _GREETER
+DESCRIPTOR.services_by_name['Feeder'] = _FEEDER
 
 # @@protoc_insertion_point(module_scope)

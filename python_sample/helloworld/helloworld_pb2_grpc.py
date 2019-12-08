@@ -4,9 +4,9 @@ import grpc
 from helloworld import helloworld_pb2 as helloworld_dot_helloworld__pb2
 
 
-class GreeterStub(object):
-  """The greeting service definition.
-  """
+class FeederStub(object):
+  # missing associated documentation comment in .proto file
+  pass
 
   def __init__(self, channel):
     """Constructor.
@@ -14,33 +14,33 @@ class GreeterStub(object):
     Args:
       channel: A grpc.Channel.
     """
-    self.SayHello = channel.unary_unary(
-        '/helloworld.Greeter/SayHello',
-        request_serializer=helloworld_dot_helloworld__pb2.HelloRequest.SerializeToString,
-        response_deserializer=helloworld_dot_helloworld__pb2.HelloReply.FromString,
+    self.GetNewFeed = channel.unary_stream(
+        '/feed.Feeder/GetNewFeed',
+        request_serializer=helloworld_dot_helloworld__pb2.Empty.SerializeToString,
+        response_deserializer=helloworld_dot_helloworld__pb2.FeedResponse.FromString,
         )
 
 
-class GreeterServicer(object):
-  """The greeting service definition.
-  """
+class FeederServicer(object):
+  # missing associated documentation comment in .proto file
+  pass
 
-  def SayHello(self, request, context):
-    """Sends a greeting
-    """
+  def GetNewFeed(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
 
-def add_GreeterServicer_to_server(servicer, server):
+def add_FeederServicer_to_server(servicer, server):
   rpc_method_handlers = {
-      'SayHello': grpc.unary_unary_rpc_method_handler(
-          servicer.SayHello,
-          request_deserializer=helloworld_dot_helloworld__pb2.HelloRequest.FromString,
-          response_serializer=helloworld_dot_helloworld__pb2.HelloReply.SerializeToString,
+      'GetNewFeed': grpc.unary_stream_rpc_method_handler(
+          servicer.GetNewFeed,
+          request_deserializer=helloworld_dot_helloworld__pb2.Empty.FromString,
+          response_serializer=helloworld_dot_helloworld__pb2.FeedResponse.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(
-      'helloworld.Greeter', rpc_method_handlers)
+      'feed.Feeder', rpc_method_handlers)
   server.add_generic_rpc_handlers((generic_handler,))
